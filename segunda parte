@@ -1,0 +1,46 @@
+const int potPin = A0; 
+const int ledPinRed = 9;   
+const int ledPinGreen = 10;  
+const int ledPinBlue = 11; 
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int potValue = analogRead(potPin); 
+  int colorValue = map(potValue, 0, 1023, 38000, 1250000); 
+
+ 
+  colorValue = constrain(colorValue, 2 * 38000, 1250000 / 2);
+
+  int red = 0;
+  int green = 0;
+  int blue = 0;
+
+  
+  if (potValue < 256) {
+    red = 255; // Rojo
+  } else if (potValue < 512) {
+    green = 255; // Verde
+  } else if (potValue < 768) {
+    blue = 255; // Azul
+  } else {
+    red = 255;
+    green = 255; // Amarillo
+  }
+
+  analogWrite(ledPinRed, red);     
+  analogWrite(ledPinGreen, green); 
+  analogWrite(ledPinBlue, blue);  
+
+ 
+  Serial.print("Color - Decimal: ");
+  Serial.print(colorValue);
+  Serial.print("\tHexadecimal: ");
+  Serial.print(colorValue, HEX);
+  Serial.print("\tBinario: ");
+  Serial.println(colorValue, BIN);
+
+  delay(100);  
+}
